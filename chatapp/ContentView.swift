@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var globalState: AppGlobalState
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        switch globalState.currentContentView {
+        case .mainView:
+            MainView()
+        case .loginScreen:
+            LoginScreenView()
+        }
     }
 }
 
