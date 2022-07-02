@@ -121,6 +121,6 @@ extension HttpManager {
     
     enum ServerAddress {
         static let localhost = "http://localhost:8048"
-        static let remotehost = "https://9894-81-163-104-163.ngrok.io" // WORK
+        static let remotehost = "https://" + Config.remoteServerAddress
     }
 }

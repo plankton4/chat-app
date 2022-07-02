@@ -212,13 +212,14 @@ class WebSocketController: NSObject {
     }
 }
 
+
 extension WebSocketController {
-    
+        
+    // MARK: SocketAddress
     enum SocketAddress {
-        /// `ngrokAddress` temporary ngrok address, which i use for testing
-        static let ngrokAddress = "wss://9894-81-163-104-163.ngrok.io"
+        
         static let local = "ws://localhost:8048/ws"
-        static let remote = ngrokAddress + "/ws" // WORK: replace ngrok on real server address
+        static let remote = "wss://" + Config.remoteServerAddress + "/ws"
     }
 }
 

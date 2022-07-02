@@ -20,7 +20,13 @@ class AppGlobalState: ObservableObject {
     @Published var currentContentView: CurrentContentView = .loginScreen
     
     init() {
-        NSLog("AppGlobalState INIT")
+        if Config.useGuestUser {
+            AppGlobalState.sessionKey = "guestkey"
+            AppGlobalState.userId = UInt32.max
+        } else {
+            AppGlobalState.sessionKey = UserDefaults.standard.string(forKey: UDCustomKeys.sessionKey) ?? ""
+            AppGlobalState.userId = UInt32(UserDefaults.standard.integer(forKey: UDCustomKeys.userIdKey))
+        }
     }
 }
 

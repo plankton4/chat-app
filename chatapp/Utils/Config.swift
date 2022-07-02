@@ -13,9 +13,15 @@ struct Config {
     ///  NOTE: not implemented yet!
     static let simulateServer = true
     
+    /// `useGuestUser` use hardcoded user to skip registration/authentication step. 
+    static let useGuestUser = true
+    
     /// `serverPlace` куда хотим подключиться. К localhost  или удаленному серверу.
     /// NOTE: подключение к localhost не работает на реальном девайсе.
-    static var serverPlace: ServerPlace = .local
+    static let serverPlace: ServerPlace = .local
+    
+    // WORK: replace ngrok.io on real server
+    static let remoteServerAddress = "5bad-81-163-104-163.ngrok.io"
 }
 
 enum ServerPlace {

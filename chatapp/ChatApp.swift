@@ -139,9 +139,4 @@ struct ChatApp: App {
                 .environmentObject(appGlobalState)
         }
     }
-    
-    init() {
-        AppGlobalState.sessionKey = UserDefaults.standard.string(forKey: UDCustomKeys.sessionKey) ?? ""
-        AppGlobalState.userId = UInt32(UserDefaults.standard.integer(forKey: UDCustomKeys.userIdKey))
-    }
 }
