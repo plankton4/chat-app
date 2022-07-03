@@ -21,7 +21,7 @@ struct Config {
     static let serverPlace: ServerPlace = .local
     
     // WORK: replace ngrok.io on real server
-    static let remoteServerAddress = "5bad-81-163-104-163.ngrok.io"
+    static let remoteServerAddress = "0b83-81-163-104-163.ngrok.io"
 }
 
 enum ServerPlace {

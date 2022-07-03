@@ -36,7 +36,6 @@ struct LoginScreenView: View {
                                 }
                                 Authorizer.shared.authorizeWithApple(appleToken: strToken) {
                                     (result: [String: Any]) in
-                                    print("Callback received")
                                     if let sessionKey = result["SessionKey"] as? String {
                                         print("SessionKey write\(sessionKey)")
                                         UserDefaults.standard.set(sessionKey, forKey: UDCustomKeys.sessionKey)
@@ -44,13 +43,11 @@ struct LoginScreenView: View {
                                     }
 
                                     if let userId = result["UserID"] as? UInt32 {
-                                        print("UserId \(userId)")
                                         UserDefaults.standard.set(userId, forKey: UDCustomKeys.userIdKey)
                                         AppGlobalState.userId = userId
                                     }
 
                                     if let isReg = result["IsRegistration"] as? Bool {
-                                        print("Is reg? \(isReg)")
                                         if isReg {
                                             needShowAuthForm = true
                                         } else {
@@ -121,7 +118,6 @@ struct LoginScreenView: View {
     }
     
     private func authenticate() {
-        NSLog("AUTHENTICATE!!!")
         Authorizer.shared.authenticate(
             userId: AppGlobalState.userId,
             sessionKey: AppGlobalState.sessionKey)

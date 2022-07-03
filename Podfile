@@ -9,5 +9,7 @@ target 'chatapp' do
   pod 'Alamofire'
   pod 'SwiftProtobuf', '~> 1.0'
   pod 'FirebaseMessaging'
+  pod 'SDWebImageSwiftUI'
+  pod 'SDWebImageWebPCoder'
 
 end

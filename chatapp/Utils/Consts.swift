@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import CoreGraphics
 
 class Consts: ObservableObject {
     
+    @Published var navBarHeight: CGFloat = 0
 }
 
 // keys for UserDefaults

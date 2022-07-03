@@ -128,15 +128,16 @@ extension AppDelegate: MessagingDelegate {
 @main
 struct ChatApp: App {
     
-    // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject private var appGlobalState = AppGlobalState()
+    @StateObject private var consts = Consts()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appGlobalState)
+                .environmentObject(consts)
         }
     }
 }

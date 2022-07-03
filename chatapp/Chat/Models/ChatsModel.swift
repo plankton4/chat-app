@@ -69,7 +69,7 @@ class ChatsModel: ObservableObject {
             let chat = Chat(
                 id: data.chatID,
                 title: data.title,
-                iconUrl: "why_cow" //data.hasIconURL ? data.iconURL : ""
+                iconUrl: data.hasIconURL ? data.iconURL : "why_cow"
             )
                 
             self.appendChat(chat: chat)

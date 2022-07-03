@@ -23,6 +23,13 @@
 		9B3F0B6F286DAE7A008395CE /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B6E286DAE7A008395CE /* Chat.swift */; };
 		9B3F0B71286DAE96008395CE /* MessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B70286DAE96008395CE /* MessagesModel.swift */; };
 		9B3F0B73286EC5A8008395CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B3F0B72286EC5A8008395CE /* GoogleService-Info.plist */; };
+		9B3F0B77287094E2008395CE /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B76287094E2008395CE /* ChatListView.swift */; };
+		9B3F0B7A287095A7008395CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B79287095A7008395CE /* SettingsView.swift */; };
+		9B3F0B7D287096E5008395CE /* NavBarAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B7C287096E5008395CE /* NavBarAccessor.swift */; };
+		9B75CC3A2870A58B00272580 /* cow_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B75CC362870A58B00272580 /* cow_icon@2x.png */; };
+		9B75CC3B2870A58B00272580 /* cow_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B75CC372870A58B00272580 /* cow_icon@3x.png */; };
+		9B75CC3E2870A62A00272580 /* jerry_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B75CC3C2870A62A00272580 /* jerry_icon@2x.png */; };
+		9B75CC3F2870A62A00272580 /* jerry_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B75CC3D2870A62A00272580 /* jerry_icon@3x.png */; };
 		9BFB082B286351AE0002C571 /* ChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFB082A286351AE0002C571 /* ChatApp.swift */; };
 		9BFB082D286351AE0002C571 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFB082C286351AE0002C571 /* ContentView.swift */; };
 		9BFB082F286351AF0002C571 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BFB082E286351AF0002C571 /* Assets.xcassets */; };
@@ -55,6 +62,14 @@
 		9B3F0B6E286DAE7A008395CE /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		9B3F0B70286DAE96008395CE /* MessagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesModel.swift; sourceTree = "<group>"; };
 		9B3F0B72286EC5A8008395CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9B3F0B76287094E2008395CE /* ChatListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
+		9B3F0B79287095A7008395CE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9B3F0B7C287096E5008395CE /* NavBarAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarAccessor.swift; sourceTree = "<group>"; };
+		9B75CC362870A58B00272580 /* cow_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cow_icon@2x.png"; sourceTree = "<group>"; };
+		9B75CC372870A58B00272580 /* cow_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cow_icon@3x.png"; sourceTree = "<group>"; };
+		9B75CC3C2870A62A00272580 /* jerry_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jerry_icon@2x.png"; sourceTree = "<group>"; };
+		9B75CC3D2870A62A00272580 /* jerry_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jerry_icon@3x.png"; sourceTree = "<group>"; };
+		9B75CC422870A83F00272580 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9BFB0827286351AE0002C571 /* Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BFB082A286351AE0002C571 /* ChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatApp.swift; sourceTree = "<group>"; };
 		9BFB082C286351AE0002C571 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -136,6 +151,7 @@
 		9B3F0B61286C6BF1008395CE /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				9B3F0B75287094C9008395CE /* Views */,
 				9B3F0B62286C6C11008395CE /* Models */,
 			);
 			path = Chat;
@@ -168,6 +184,49 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		9B3F0B75287094C9008395CE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9B3F0B76287094E2008395CE /* ChatListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9B3F0B7828709599008395CE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9B3F0B79287095A7008395CE /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9B3F0B7B287096D6008395CE /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9B3F0B7C287096E5008395CE /* NavBarAccessor.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		9B75CC322870A58B00272580 /* AppIconCustomizer */ = {
+			isa = PBXGroup;
+			children = (
+				9B75CC332870A58B00272580 /* AppIcons */,
+			);
+			path = AppIconCustomizer;
+			sourceTree = "<group>";
+		};
+		9B75CC332870A58B00272580 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				9B75CC3C2870A62A00272580 /* jerry_icon@2x.png */,
+				9B75CC3D2870A62A00272580 /* jerry_icon@3x.png */,
+				9B75CC362870A58B00272580 /* cow_icon@2x.png */,
+				9B75CC372870A58B00272580 /* cow_icon@3x.png */,
+			);
+			path = AppIcons;
+			sourceTree = "<group>";
+		};
 		9BFB081E286351AE0002C571 = {
 			isa = PBXGroup;
 			children = (
@@ -190,9 +249,13 @@
 			isa = PBXGroup;
 			children = (
 				9B3F0B4B286ACB84008395CE /* chatapp.entitlements */,
+				9B75CC422870A83F00272580 /* Info.plist */,
 				9B3F0B72286EC5A8008395CE /* GoogleService-Info.plist */,
 				9BFB082A286351AE0002C571 /* ChatApp.swift */,
 				9BFB082C286351AE0002C571 /* ContentView.swift */,
+				9B75CC322870A58B00272580 /* AppIconCustomizer */,
+				9B3F0B7B287096D6008395CE /* Helpers */,
+				9B3F0B7828709599008395CE /* Settings */,
 				9B3F0B65286D9DDA008395CE /* Data */,
 				9B3F0B4C286B35AE008395CE /* Network */,
 				9BFB084228647BAC0002C571 /* LoginScreen */,
@@ -303,6 +366,10 @@
 			files = (
 				9BFB0832286351AF0002C571 /* Preview Assets.xcassets in Resources */,
 				9BFB082F286351AF0002C571 /* Assets.xcassets in Resources */,
+				9B75CC3B2870A58B00272580 /* cow_icon@3x.png in Resources */,
+				9B75CC3A2870A58B00272580 /* cow_icon@2x.png in Resources */,
+				9B75CC3F2870A62A00272580 /* jerry_icon@3x.png in Resources */,
+				9B75CC3E2870A62A00272580 /* jerry_icon@2x.png in Resources */,
 				9B3F0B73286EC5A8008395CE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,6 +423,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3F0B77287094E2008395CE /* ChatListView.swift in Sources */,
+				9B3F0B7A287095A7008395CE /* SettingsView.swift in Sources */,
 				9B3F0B59286C28C7008395CE /* common.pb.swift in Sources */,
 				9BFB082D286351AE0002C571 /* ContentView.swift in Sources */,
 				9B3F0B6B286DAC34008395CE /* ChatsNetworkHandler.swift in Sources */,
@@ -374,6 +443,7 @@
 				9B3F0B5E286C4578008395CE /* Notification+Name.swift in Sources */,
 				9B3F0B53286B380B008395CE /* Consts.swift in Sources */,
 				9B3F0B64286C6C37008395CE /* Message.swift in Sources */,
+				9B3F0B7D287096E5008395CE /* NavBarAccessor.swift in Sources */,
 				9BFB084128647B5F0002C571 /* LoginScreenView.swift in Sources */,
 				9B3F0B71286DAE96008395CE /* MessagesModel.swift in Sources */,
 				9B3F0B60286C6ABA008395CE /* AppData.swift in Sources */,
@@ -510,6 +580,7 @@
 				DEVELOPMENT_TEAM = N48552PM44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chatapp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -542,6 +613,7 @@
 				DEVELOPMENT_TEAM = N48552PM44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = chatapp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

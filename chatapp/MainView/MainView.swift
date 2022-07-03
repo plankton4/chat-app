@@ -9,13 +9,81 @@ import SwiftUI
 
 struct MainView: View {
     
+    @EnvironmentObject var globalState: AppGlobalState
+    @EnvironmentObject var consts: Consts
+    
     var body: some View {
-        Text("MainView")
+        NavigationView {
+            VStack(spacing: 0) {
+                ZStack {
+                    ChatListView()
+                        .zIndex(globalState.activeMenuTab == .chats ? 1 : 0)
+                    
+                    SettingsView()
+                        .zIndex(globalState.activeMenuTab == .settings ? 1 : 0)
+                }
+                
+                VStack(spacing: 0) {
+                    Divider()
+                    
+                    HStack {
+                        VStack {
+                            Image(systemName: "message.fill")
+                                .font(.system(size: 20))
+                            Text("Chats")
+                        }
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(globalState.activeMenuTab == .chats ? .blue : .gray)
+                        .onTapGesture {
+                            globalState.activeMenuTab = .chats
+                        }
+                        
+                        VStack {
+                            Image(systemName: "gear")
+                                .font(.system(size: 20))
+                            Text("Settings")
+                        }
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(globalState.activeMenuTab == .settings ? .blue : .gray)
+                        .onTapGesture {
+                            globalState.activeMenuTab = .settings
+                        }
+                    }
+                    .frame(width: UIScreen.main.bounds.width)
+                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                    .background(Color("ChatBottom").ignoresSafeArea())
+                }
+            }
+            .background(NavBarAccessor { navBar in
+                if consts.navBarHeight == 0 {
+                    consts.navBarHeight = navBar.bounds.height
+                }
+            })
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(globalState.activeMenuTab.title)
+        }
+        .onAppear {
+            WS.getChatList()
+        }
+        // нужно вывалиться на логинСкрин, если аутентификация не прошла
+        .onReceive(NotificationCenter.default.publisher(for: .nameAuthAnswerReceived)) { notification in
+            guard let userInfo = notification.userInfo else { return }
+            guard let authAnswer = userInfo["Data"] as? PBCommon_AuthenticationAnswer else {
+                return
+            }
+            
+            print("Auth Answer Received \(authAnswer)")
+            if authAnswer.isRegistration == 1 {
+                globalState.currentContentView = .loginScreen
+            }
+        }
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .environmentObject(AppGlobalState())
+            .environmentObject(Consts())
     }
 }

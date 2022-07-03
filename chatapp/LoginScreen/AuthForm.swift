@@ -130,7 +130,7 @@ struct AuthForm: View {
             })
             .frame(width: UIScreen.main.bounds.width * 0.89, height: 50)
             .background(Color("ReversedSystemBackground"))
-            .foregroundColor(Color(.systemBackground))
+            .foregroundColor(Color(UIColor.systemBackground))
             .cornerRadius(10)
         }
         .padding(EdgeInsets(top: 16,

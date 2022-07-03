@@ -46,30 +46,31 @@ class WebSocketController: NSObject {
     private var isAuthenticated = false {
         didSet {
             if isAuthenticated {
-                //processRequestsQueue()
+                processRequestsQueue()
             }
         }
     }
     private var authenticationInProgress = false
     private var authenticationInProgressResetter: DispatchWorkItem?
     private var isFirstAuthentication = true
-    // lastSuccessAuthenticationRowID – чтоб когда нам приходил ReturnedMessageEvent
-    // с причиной AuthenticationNeeded мы понимали пришел он позже
-    // успешной аутентификации или до. Если до, то мы его игнорим, т.к. мы уже
-    // аутентифицировались и незачем сбрасывать признак isAuthenticated.
-    // Если пришел уже после, значит на сервер аутентификация слетела, нужно еще раз пройти
-    // скинув признак isAuthenticated
+    
+    /// `lastSuccessAuthenticationRowID` – чтоб когда нам приходил ReturnedMessageEvent
+    /// с причиной AuthenticationNeeded мы понимали пришел он позже
+    /// успешной аутентификации или до. Если до, то мы его игнорим, т.к. мы уже
+    /// аутентифицировались и незачем сбрасывать признак isAuthenticated.
+    /// Если пришел уже после, значит на сервер аутентификация слетела, нужно еще раз пройти
+    /// скинув признак isAuthenticated
     private var lastAuthenticationAnswerRowID: UInt32 = 0
     
     private var listenerForSocketOpened: Cancellable?
     
-    // `reqQueue` – сюда складываются запросы, которые не отправились по причине
-    // отсутствия соединения с сокетом, непройденной аутентификации и т.д.
+    /// `reqQueue` – сюда складываются запросы, которые не отправились по причине
+    /// отсутствия соединения с сокетом, непройденной аутентификации и т.д.
     private var reqQueue: [PBCommon_PBMessage.OneOf_InternalMessage] = []
     
-    // запросы, для которых критично получить ответ, такие как список чатов.
-    // если ответ долго не получаем, отправляем запрос еще раз
-    // ключ – rowID
+    /// `importantRequests` запросы, для которых критично получить ответ, такие как список чатов.
+    /// если ответ долго не получаем, отправляем запрос еще раз
+    /// ключ – rowID
     private var importantRequests: [UInt32: PBCommon_PBMessage.OneOf_InternalMessage] = [:]
     private let importantRequestsQueue = DispatchQueue(label: "ImportantRequests")
     
@@ -80,7 +81,7 @@ class WebSocketController: NSObject {
             if oldValue != nil && oldValue != connectedInterface {
                 print("INTERFACE CHANGED!!!!")
                 // дисконнектим сокет, т.к. при смене интерфейса сокет будет говорить,
-                // что всё збс, но до него ничего не дойдет в итоге.
+                // что всё норм, но до него ничего не дойдет в итоге.
                 disconnect()
                 
                 // если спустя некоторое время до сих пор не подключились,
@@ -110,6 +111,10 @@ class WebSocketController: NSObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.continuePinging()
         }
+    }
+    
+    func getSocketState() -> URLSessionTask.State {
+        return socket.state
     }
     
     private func connect() {
@@ -163,9 +168,9 @@ class WebSocketController: NSObject {
             }
             
             if path.status == .satisfied {
-                // есть инет
+                // internet connection 👍
             } else {
-                // нет инета
+                // internet connection 👎
             }
         }
         nwPathMonitor.start(queue: netStatusMonitorQueue)
@@ -442,7 +447,7 @@ extension WebSocketController {
     {
         guard isConnected else {
             reqQueue.append(internalMess)
-            //NSLog("NOT CONNECTED!!! append \(reqQueue.count)")
+            NSLog("NOT CONNECTED!!! append \(reqQueue.count)")
             return
         }
         
@@ -456,7 +461,7 @@ extension WebSocketController {
                 if !authenticationInProgress {
                     authenticate()
                 }
-                //NSLog("NOT AUTHENTICATED!!! append \(reqQueue.count)")
+                NSLog("NOT AUTHENTICATED!!! append \(reqQueue.count)")
                 return
             }
         }
