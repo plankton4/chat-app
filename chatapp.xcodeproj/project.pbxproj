@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B23FBD02871F9E000C783D3 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBCF2871F9E000C783D3 /* ChatView.swift */; };
+		9B23FBD32872C79000C783D3 /* CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBD22872C79000C783D3 /* CustomToast.swift */; };
+		9B23FBD52872CA6500C783D3 /* ChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBD42872CA6500C783D3 /* ChatMessageView.swift */; };
+		9B23FBD72872CAB900C783D3 /* FullscreenPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBD62872CAB900C783D3 /* FullscreenPhoto.swift */; };
+		9B23FBDB2872CC3A00C783D3 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBDA2872CC3A00C783D3 /* CustomBackButton.swift */; };
+		9B23FBDD2872CD7E00C783D3 /* FullscreenImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBDC2872CD7E00C783D3 /* FullscreenImageManager.swift */; };
+		9B23FBDF2872CE1B00C783D3 /* KeyboardDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBDE2872CE1B00C783D3 /* KeyboardDetector.swift */; };
+		9B23FBE12872CE4700C783D3 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBE02872CE4700C783D3 /* KeyboardManager.swift */; };
+		9B23FBE32872CF9F00C783D3 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBE22872CF9F00C783D3 /* ImagePickerController.swift */; };
+		9B23FBE72872D07200C783D3 /* ReplyPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBE62872D07200C783D3 /* ReplyPanel.swift */; };
+		9B23FBE92872D0ED00C783D3 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBE82872D0ED00C783D3 /* BottomSheetView.swift */; };
+		9B23FBEB2872D2DB00C783D3 /* GIFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBEA2872D2DB00C783D3 /* GIFViewController.swift */; };
+		9B23FBED2872D4FA00C783D3 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBEC2872D4FA00C783D3 /* TextEditorView.swift */; };
+		9B23FBEF2872D5CD00C783D3 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBEE2872D5CD00C783D3 /* View+.swift */; };
+		9B23FBF12872D80C00C783D3 /* ChatBubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBF02872D80C00C783D3 /* ChatBubbleShape.swift */; };
+		9B23FBF52872DC1300C783D3 /* MessageReactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBF42872DC1300C783D3 /* MessageReactionView.swift */; };
+		9B23FBF82872DD6B00C783D3 /* MessageContextMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBF72872DD6B00C783D3 /* MessageContextMenuView.swift */; };
+		9B23FBFA2872DD8200C783D3 /* ContextMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBF92872DD8200C783D3 /* ContextMenuButton.swift */; };
+		9B23FBFC2872DDFA00C783D3 /* TextMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBFB2872DDFA00C783D3 /* TextMessageView.swift */; };
+		9B23FBFE2872DE2A00C783D3 /* GIFMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBFD2872DE2A00C783D3 /* GIFMessageView.swift */; };
+		9B23FC002872DE7C00C783D3 /* PhotoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23FBFF2872DE7C00C783D3 /* PhotoMessageView.swift */; };
 		9B3F0B4E286B35DD008395CE /* Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B4D286B35DD008395CE /* Authorizer.swift */; };
 		9B3F0B50286B3788008395CE /* HttpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B4F286B3788008395CE /* HttpManager.swift */; };
 		9B3F0B53286B380B008395CE /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F0B52286B380B008395CE /* Consts.swift */; };
@@ -45,6 +66,27 @@
 		03A3336417D312B8BE1C4AAE /* Pods-chatapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chatapp.debug.xcconfig"; path = "Target Support Files/Pods-chatapp/Pods-chatapp.debug.xcconfig"; sourceTree = "<group>"; };
 		40A70B706625C0A01704FAA7 /* Pods_chatapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_chatapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80BA6902A4B779A7BAC873AF /* Pods-chatapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chatapp.release.xcconfig"; path = "Target Support Files/Pods-chatapp/Pods-chatapp.release.xcconfig"; sourceTree = "<group>"; };
+		9B23FBCF2871F9E000C783D3 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		9B23FBD22872C79000C783D3 /* CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToast.swift; sourceTree = "<group>"; };
+		9B23FBD42872CA6500C783D3 /* ChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageView.swift; sourceTree = "<group>"; };
+		9B23FBD62872CAB900C783D3 /* FullscreenPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenPhoto.swift; sourceTree = "<group>"; };
+		9B23FBDA2872CC3A00C783D3 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
+		9B23FBDC2872CD7E00C783D3 /* FullscreenImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenImageManager.swift; sourceTree = "<group>"; };
+		9B23FBDE2872CE1B00C783D3 /* KeyboardDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDetector.swift; sourceTree = "<group>"; };
+		9B23FBE02872CE4700C783D3 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		9B23FBE22872CF9F00C783D3 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
+		9B23FBE62872D07200C783D3 /* ReplyPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyPanel.swift; sourceTree = "<group>"; };
+		9B23FBE82872D0ED00C783D3 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		9B23FBEA2872D2DB00C783D3 /* GIFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFViewController.swift; sourceTree = "<group>"; };
+		9B23FBEC2872D4FA00C783D3 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
+		9B23FBEE2872D5CD00C783D3 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
+		9B23FBF02872D80C00C783D3 /* ChatBubbleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleShape.swift; sourceTree = "<group>"; };
+		9B23FBF42872DC1300C783D3 /* MessageReactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageReactionView.swift; sourceTree = "<group>"; };
+		9B23FBF72872DD6B00C783D3 /* MessageContextMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContextMenuView.swift; sourceTree = "<group>"; };
+		9B23FBF92872DD8200C783D3 /* ContextMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenuButton.swift; sourceTree = "<group>"; };
+		9B23FBFB2872DDFA00C783D3 /* TextMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextMessageView.swift; sourceTree = "<group>"; };
+		9B23FBFD2872DE2A00C783D3 /* GIFMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFMessageView.swift; sourceTree = "<group>"; };
+		9B23FBFF2872DE7C00C783D3 /* PhotoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMessageView.swift; sourceTree = "<group>"; };
 		9B3F0B4B286ACB84008395CE /* chatapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = chatapp.entitlements; sourceTree = "<group>"; };
 		9B3F0B4D286B35DD008395CE /* Authorizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorizer.swift; sourceTree = "<group>"; };
 		9B3F0B4F286B3788008395CE /* HttpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpManager.swift; sourceTree = "<group>"; };
@@ -110,6 +152,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B23FBD82872CACC00C783D3 /* MessageViews */ = {
+			isa = PBXGroup;
+			children = (
+				9B23FBD42872CA6500C783D3 /* ChatMessageView.swift */,
+				9B23FBFB2872DDFA00C783D3 /* TextMessageView.swift */,
+				9B23FBFD2872DE2A00C783D3 /* GIFMessageView.swift */,
+				9B23FBFF2872DE7C00C783D3 /* PhotoMessageView.swift */,
+			);
+			path = MessageViews;
+			sourceTree = "<group>";
+		};
+		9B23FBD92872CBA600C783D3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9B23FBD22872C79000C783D3 /* CustomToast.swift */,
+				9B23FBDA2872CC3A00C783D3 /* CustomBackButton.swift */,
+				9B23FBE22872CF9F00C783D3 /* ImagePickerController.swift */,
+				9B23FBE82872D0ED00C783D3 /* BottomSheetView.swift */,
+				9B23FBEA2872D2DB00C783D3 /* GIFViewController.swift */,
+				9B23FBEC2872D4FA00C783D3 /* TextEditorView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9B23FBF62872DD5500C783D3 /* MessageContextMenu */ = {
+			isa = PBXGroup;
+			children = (
+				9B23FBF72872DD6B00C783D3 /* MessageContextMenuView.swift */,
+				9B23FBF92872DD8200C783D3 /* ContextMenuButton.swift */,
+			);
+			path = MessageContextMenu;
+			sourceTree = "<group>";
+		};
 		9B3F0B4C286B35AE008395CE /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +202,7 @@
 				9BFB0838286356290002C571 /* Config.swift */,
 				9B3F0B52286B380B008395CE /* Consts.swift */,
 				9B3F0B68286DA1F3008395CE /* Utils.swift */,
+				9B23FBDE2872CE1B00C783D3 /* KeyboardDetector.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -144,6 +220,7 @@
 			children = (
 				9B3F0B5D286C4578008395CE /* Notification+Name.swift */,
 				9B3F0B66286DA1A0008395CE /* UIImage+.swift */,
+				9B23FBEE2872D5CD00C783D3 /* View+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -187,7 +264,14 @@
 		9B3F0B75287094C9008395CE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9B23FBF62872DD5500C783D3 /* MessageContextMenu */,
+				9B23FBD82872CACC00C783D3 /* MessageViews */,
 				9B3F0B76287094E2008395CE /* ChatListView.swift */,
+				9B23FBCF2871F9E000C783D3 /* ChatView.swift */,
+				9B23FBD62872CAB900C783D3 /* FullscreenPhoto.swift */,
+				9B23FBE62872D07200C783D3 /* ReplyPanel.swift */,
+				9B23FBF02872D80C00C783D3 /* ChatBubbleShape.swift */,
+				9B23FBF42872DC1300C783D3 /* MessageReactionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -254,6 +338,7 @@
 				9BFB082A286351AE0002C571 /* ChatApp.swift */,
 				9BFB082C286351AE0002C571 /* ContentView.swift */,
 				9B75CC322870A58B00272580 /* AppIconCustomizer */,
+				9B23FBD92872CBA600C783D3 /* Components */,
 				9B3F0B7B287096D6008395CE /* Helpers */,
 				9B3F0B7828709599008395CE /* Settings */,
 				9B3F0B65286D9DDA008395CE /* Data */,
@@ -283,6 +368,8 @@
 			isa = PBXGroup;
 			children = (
 				9BFB083C2864782D0002C571 /* AppGlobalState.swift */,
+				9B23FBDC2872CD7E00C783D3 /* FullscreenImageManager.swift */,
+				9B23FBE02872CE4700C783D3 /* KeyboardManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -423,29 +510,50 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B23FBFC2872DDFA00C783D3 /* TextMessageView.swift in Sources */,
+				9B23FBD32872C79000C783D3 /* CustomToast.swift in Sources */,
+				9B23FBD72872CAB900C783D3 /* FullscreenPhoto.swift in Sources */,
 				9B3F0B77287094E2008395CE /* ChatListView.swift in Sources */,
 				9B3F0B7A287095A7008395CE /* SettingsView.swift in Sources */,
+				9B23FBFE2872DE2A00C783D3 /* GIFMessageView.swift in Sources */,
 				9B3F0B59286C28C7008395CE /* common.pb.swift in Sources */,
 				9BFB082D286351AE0002C571 /* ContentView.swift in Sources */,
 				9B3F0B6B286DAC34008395CE /* ChatsNetworkHandler.swift in Sources */,
 				9B3F0B4E286B35DD008395CE /* Authorizer.swift in Sources */,
 				9BFB082B286351AE0002C571 /* ChatApp.swift in Sources */,
 				9BFB083D2864782D0002C571 /* AppGlobalState.swift in Sources */,
+				9B23FBDB2872CC3A00C783D3 /* CustomBackButton.swift in Sources */,
+				9B23FBD52872CA6500C783D3 /* ChatMessageView.swift in Sources */,
 				9B3F0B6D286DADDB008395CE /* ChatsModel.swift in Sources */,
+				9B23FBDF2872CE1B00C783D3 /* KeyboardDetector.swift in Sources */,
 				9B3F0B67286DA1A0008395CE /* UIImage+.swift in Sources */,
 				9BFB083F28647B1B0002C571 /* MainView.swift in Sources */,
 				9B3F0B55286B3A1D008395CE /* WebSocketController.swift in Sources */,
+				9B23FBF52872DC1300C783D3 /* MessageReactionView.swift in Sources */,
+				9B23FBED2872D4FA00C783D3 /* TextEditorView.swift in Sources */,
 				9B3F0B5B286C3E28008395CE /* AuthForm.swift in Sources */,
 				9B3F0B69286DA1F3008395CE /* Utils.swift in Sources */,
 				9B3F0B50286B3788008395CE /* HttpManager.swift in Sources */,
 				9B3F0B6F286DAE7A008395CE /* Chat.swift in Sources */,
+				9B23FBDD2872CD7E00C783D3 /* FullscreenImageManager.swift in Sources */,
 				9BFB0839286356290002C571 /* Config.swift in Sources */,
+				9B23FBD02871F9E000C783D3 /* ChatView.swift in Sources */,
+				9B23FBF12872D80C00C783D3 /* ChatBubbleShape.swift in Sources */,
 				9B3F0B5E286C4578008395CE /* Notification+Name.swift in Sources */,
+				9B23FBF82872DD6B00C783D3 /* MessageContextMenuView.swift in Sources */,
 				9B3F0B53286B380B008395CE /* Consts.swift in Sources */,
 				9B3F0B64286C6C37008395CE /* Message.swift in Sources */,
 				9B3F0B7D287096E5008395CE /* NavBarAccessor.swift in Sources */,
+				9B23FC002872DE7C00C783D3 /* PhotoMessageView.swift in Sources */,
+				9B23FBE92872D0ED00C783D3 /* BottomSheetView.swift in Sources */,
+				9B23FBE32872CF9F00C783D3 /* ImagePickerController.swift in Sources */,
+				9B23FBEB2872D2DB00C783D3 /* GIFViewController.swift in Sources */,
+				9B23FBE12872CE4700C783D3 /* KeyboardManager.swift in Sources */,
+				9B23FBEF2872D5CD00C783D3 /* View+.swift in Sources */,
 				9BFB084128647B5F0002C571 /* LoginScreenView.swift in Sources */,
+				9B23FBE72872D07200C783D3 /* ReplyPanel.swift in Sources */,
 				9B3F0B71286DAE96008395CE /* MessagesModel.swift in Sources */,
+				9B23FBFA2872DD8200C783D3 /* ContextMenuButton.swift in Sources */,
 				9B3F0B60286C6ABA008395CE /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

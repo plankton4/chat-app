@@ -12,6 +12,8 @@ struct MainView: View {
     @EnvironmentObject var globalState: AppGlobalState
     @EnvironmentObject var consts: Consts
     
+    @ObservedObject var chatListModel = AppData.shared.chatsModel
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -61,9 +63,6 @@ struct MainView: View {
             })
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(globalState.activeMenuTab.title)
-        }
-        .onAppear {
-            WS.getChatList()
         }
         // нужно вывалиться на логинСкрин, если аутентификация не прошла
         .onReceive(NotificationCenter.default.publisher(for: .nameAuthAnswerReceived)) { notification in

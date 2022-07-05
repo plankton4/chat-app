@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var globalState: AppGlobalState
+    @EnvironmentObject var fullscreenPhotoManager: FullscreenImageManager
     @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
@@ -24,6 +25,10 @@ struct ContentView: View {
                     }
             case .loginScreen:
                 LoginScreenView()
+            }
+            
+            if fullscreenPhotoManager.isFullscreenOpened {
+                fullscreenPhotoManager.fullscreenImageView()
             }
         }
         .onChange(of: scenePhase) { newPhase in

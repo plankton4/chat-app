@@ -12,6 +12,8 @@ struct ChatListView: View {
     
     @EnvironmentObject var globalState: AppGlobalState
     
+    @StateObject private var viewModel = ChatListViewViewModel()
+    
     @ObservedObject var chatListModel = AppData.shared.chatsModel
     
     var body: some View {
@@ -20,21 +22,23 @@ struct ChatListView: View {
                 tag: chat.id,
                 selection: self.$globalState.selectedChat,
                 destination: {
-                    //                        ChatView(chat: chat, onChatClosed: {
-                    //                            onChatOpened?(false)
-                    //                        })
-                    //                        .onDisappear(perform: {
-                    //                            if globalState.selectedChatFuture != 0  {
-                    //                                globalState.selectedChat = globalState.selectedChatFuture
-                    //                                globalState.selectedChatFuture = 0
-                    //                            }
-                    //                        })
+                    ChatView(chat: chat)
+                    // если перешли по пушу, который переводит в чат, но были в другом чате
+                    // и вышли из него
+                    .onDisappear(perform: {
+                        if globalState.selectedChatFromPush != 0  {
+                            globalState.selectedChat = globalState.selectedChatFromPush
+                            globalState.selectedChatFromPush = 0
+                        }
+                    })
                 },
                 label: {
                     HStack(spacing: 20) {
                         if let url = URL(string: chat.iconUrl) {
                             WebImage(url: url)
                                 .resizable()
+                                .indicator(.activity)
+                                .transition(.fade(duration: 0.5))
                                 .frame(width: 50, height: 50)
                                 .clipShape(Circle())
                                 .shadow(radius: 1)
@@ -56,6 +60,31 @@ struct ChatListView: View {
         }
         .listStyle(.plain)
         .background(Color(UIColor.systemBackground).ignoresSafeArea())
+        .onChange(of: globalState.selectedChatFromPush, perform: { _ in
+            if globalState.selectedChat == nil && globalState.selectedChatFromPush != 0 {
+                if chatListModel.chatsReceivedOnce {
+                    globalState.selectedChat = globalState.selectedChatFromPush
+                    globalState.selectedChatFromPush = 0
+                }
+            }
+        })
+        .onChange(of: chatListModel.chatsReceivedOnce, perform: { isReceived in
+            if isReceived {
+                if globalState.selectedChat == nil && globalState.selectedChatFromPush != 0 {
+                    globalState.selectedChat = globalState.selectedChatFromPush
+                    globalState.selectedChatFromPush = 0
+                }
+            }
+        })
+    }
+}
+
+extension ChatListView {
+    
+    @MainActor class ChatListViewViewModel: ObservableObject {
+        init() {
+            WS.getChatList()
+        }
     }
 }
 

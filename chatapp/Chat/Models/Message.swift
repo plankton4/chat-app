@@ -68,6 +68,11 @@ class TextMessage: Message {
         super.init(id: id, userID: userID, type: .text)
     }
     
+    init(text: String) {
+        self.text = text
+        super.init(id: "", userID: 0, type: .text)
+    }
+    
     override func getCopyForReply() -> Message {
         let mess = TextMessage(id: self.id, userID: self.userID, text: self.text)
         fillBaseCopy(child: mess)
@@ -79,11 +84,15 @@ class TextMessage: Message {
 
 class GIFMessage: Message {
     var gifUrl: String
-    var description: String? = nil
 
     init(id: String, userID: UInt32, url: String) {
         self.gifUrl = url
         super.init(id: id, userID: userID, type: .gif)
+    }
+    
+    init(url: String) {
+        self.gifUrl = url
+        super.init(id: "", userID: 0, type: .gif)
     }
     
     override func getCopyForReply() -> Message {
@@ -98,11 +107,10 @@ class GIFMessage: Message {
 class PhotoMessage: Message {
     var photoUrl: String?
     var uiImage: UIImage?
-    var description: String? = nil
     var aspectRatio: Float = 1.0
     
     init(
-        id: String = "",
+        id: String,
         userID: UInt32,
         photoUrl: String? = nil,
         uiImage: UIImage? = nil)
@@ -110,6 +118,12 @@ class PhotoMessage: Message {
         self.photoUrl = photoUrl
         self.uiImage = uiImage
         super.init(id: id, userID: userID, type: .photo)
+    }
+    
+    init(photoUrl: String? = nil, uiImage: UIImage? = nil) {
+        self.photoUrl = photoUrl
+        self.uiImage = uiImage
+        super.init(id: "", userID: 0, type: .photo)
     }
     
     override func getCopyForReply() -> Message {

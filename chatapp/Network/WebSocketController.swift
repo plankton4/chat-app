@@ -571,7 +571,7 @@ extension WebSocketController {
             
         // GetAllChatMessagesAnswer
         case .messGetAllChatMessagesAnswer(let answer):
-            print("WebSocket HANDLE GetAllChatMessagesAnswer")
+            print("WebSocket HANDLE GetAllChatMessagesAnswer \(pbMess)")
             chatsHandler.handleGetAllChatMessagesAnswer(
                 userID: answer.hasUserID ? answer.userID : nil,
                 chatID: answer.hasChatID ? answer.chatID : nil,
@@ -583,8 +583,8 @@ extension WebSocketController {
             print("WebSocket HANDLE PBMESS \(pbMess)")
         
         // GetUnreadInfoResp
-        case .messGetUnreadInfoResp(let resp):
-            print("WebSocket HANDLE PBMESS \(pbMess)")
+//        case .messGetUnreadInfoResp(let resp):
+//            print("WebSocket HANDLE PBMESS \(pbMess)")
             
         // GetUserDataAnswer
         case .messGetUserDataAnswer(let answer):

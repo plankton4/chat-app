@@ -20,8 +20,12 @@ class AppGlobalState: ObservableObject {
     @Published var currentContentView: CurrentContentView = .loginScreen
     @Published var activeMenuTab: MenuTab = .chats
     
-    // selectedChat по нему триггерится переход в чат в ChatListView
+    /// `selectedChat` по нему триггерится переход в чат в ChatListView
     @Published var selectedChat: UInt32? = nil
+    
+    /// `selectedChatFromPush` значит что перешли по пушу, который переводит в чат.
+    /// Переход в нужный чат происходит не сразу. Если находимся в другом чате, то выходим из него сначала.
+    @Published var selectedChatFromPush: UInt32 = 0
     
     init() {
         if Config.useGuestUser {
@@ -41,9 +45,9 @@ extension AppGlobalState {
         case mainView
     }
     
-    enum MenuTab {
-        case chats
-        case settings
+    enum MenuTab: Int {
+        case chats = 1
+        case settings = 2
         
         var title: String {
             switch self {

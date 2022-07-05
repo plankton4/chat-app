@@ -17,4 +17,15 @@ struct Utils {
         }
         return false
     }
+    
+    static func getStringDate(unixTime: UInt32) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short //Set time style
+        dateFormatter.dateStyle = .short //Set date style
+        dateFormatter.timeZone = .current
+        let localDate = dateFormatter.string(from: date)
+        
+        return localDate
+    }
 }

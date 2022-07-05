@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseMessaging
+import SDWebImageWebPCoder
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -17,6 +18,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
     {
+        // WEbP поддержка для гифок
+        let WebPCoder = SDImageWebPCoder.shared
+        SDImageCodersManager.shared.addCoder(WebPCoder)
+        
+        UITextView.appearance().backgroundColor = .clear
+        
+        // // подключение Firebase
         FirebaseApp.configure()
         
         /**
@@ -132,12 +140,48 @@ struct ChatApp: App {
     
     @StateObject private var appGlobalState = AppGlobalState()
     @StateObject private var consts = Consts()
+    @StateObject private var fullscreenPhotoManager = FullscreenImageManager()
+    @StateObject private var keyboardDetector = KeyboardDetector()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appGlobalState)
                 .environmentObject(consts)
+                .environmentObject(fullscreenPhotoManager)
+                .environmentObject(keyboardDetector)
+                // тут нужно в onAppear обрабатывать и в onReceive
+                // т.к. onAppear не срабатывает при повторных октрытиях прила
+                // но onAppear нужен при первом открытии, т.к. onReceive не успевает
+                // подготовиться для приема сигнала
+                .onAppear(perform: {
+                    processPushUserInfo()
+                })
+                .onReceive(NotificationCenter.default.publisher(for: .nameOpenFromPush)) { _ in
+                    processPushUserInfo()
+                }
+        }
+    }
+    
+    private func processPushUserInfo() {
+        if let userInfo = AppGlobalState.pushUserInfo {
+            AppGlobalState.pushUserInfo = nil
+            
+            if let sectionIDStr = userInfo["sectionID"] as? String,
+               let sectionID = Int(sectionIDStr)
+            {
+                print("### OpenFromPush section: \(sectionID)")
+                if let validMenuTab = AppGlobalState.MenuTab(rawValue: sectionID) {
+                    appGlobalState.activeMenuTab = validMenuTab
+                }
+            }
+            
+            if let toChatIDStr = userInfo["toChatID"] as? String,
+               let toChatID = UInt32(toChatIDStr)
+            {
+                print("### OpenFromPush chatID: \(toChatID)")
+                appGlobalState.selectedChatFromPush = toChatID
+            }
         }
     }
 }

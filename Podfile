@@ -11,5 +11,7 @@ target 'chatapp' do
   pod 'FirebaseMessaging'
   pod 'SDWebImageSwiftUI'
   pod 'SDWebImageWebPCoder'
+  pod 'Giphy' 
+  pod 'Introspect'
 
 end
