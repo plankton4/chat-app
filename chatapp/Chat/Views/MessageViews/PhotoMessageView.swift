@@ -14,12 +14,7 @@ struct PhotoMessageView: View {
     let contentSidePadding: CGFloat = 14
     
     var body: some View {
-        VStack(alignment: .leading) {
-            photoContent(message)
-        }
-        .frame(maxWidth: UIScreen.main.bounds.width * 0.9,
-               maxHeight: UIScreen.main.bounds.height * 0.5)
-        .fixedSize(horizontal: false, vertical: true)
+        photoContent(message)
     }
     
     @ViewBuilder
@@ -43,6 +38,8 @@ struct PhotoMessageView: View {
 struct PhotoMessageView_Previews: PreviewProvider {
     static var previews: some View {
         let uiImage = UIImage(named: "why_cow")
-        PhotoMessageView(message: PhotoMessage(uiImage: uiImage))
+        let photoMessage = PhotoMessage(uiImage: uiImage)
+        photoMessage.aspectRatio = 0.5
+        return PhotoMessageView(message: photoMessage)
     }
 }

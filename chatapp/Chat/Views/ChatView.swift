@@ -38,52 +38,49 @@ struct ChatView: View {
         VStack(spacing: 0) {
             Divider()
             
-            ZStack(alignment: .topLeading) {
-                ScrollViewReader { scrollView in
-                    ScrollView(showsIndicators: false) {
-                        LazyVStack {
-                            ForEach(chatModel.messages) { message in
-                                messageView(message: message, isDirect: chat.isDirect)
-                                    .rotationEffect(.degrees(180))
-                            }
-                        }
-                        .id("ChatVStack")
-                        .padding(.top, 8)
-                        .animation(
-                            allowMessagesCountAnim ? .spring().speed(2) : nil,
-                            value: chatModel.messages.count)
-                    }
-                    .rotationEffect(.degrees(180))
-                    .clipped()
-                    .onTapGesture {
-                        if isGIFPanelPresented {
-                            withAnimation {
-                                isGIFPanelPresented = false
-                            }
-                        }
-                        
-                        if keyboardDetector.isVisible {
-                            KeyboardManager.hideKeyboard()
+            ScrollViewReader { scrollView in
+                ScrollView(showsIndicators: false) {
+                    LazyVStack {
+                        ForEach(chatModel.messages) { message in
+                            messageView(message: message, isDirect: chat.isDirect)
+                                .rotationEffect(.degrees(180))
                         }
                     }
-                    .onChange(of: viewModel.needScrollToBottom, perform: { newVal in
-                        if newVal {
-                            if let firstMess = chatModel.messages.first {
-                                scrollView.scrollTo(firstMess.id, anchor: .bottom)
-                                viewModel.needScrollToBottom = false
-                            }
-                        }
-                    })
-                    .onChange(of: chatModel.fillingInProgress, perform: { newVal in
-                        if newVal {
-                            allowMessagesCountAnim = false
-                        } else {
-                            allowMessagesCountAnim = true
-                        }
-                    })
+                    .id("ChatVStack")
+                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                    .animation(
+                        allowMessagesCountAnim ? .spring().speed(2) : nil,
+                        value: chatModel.messages.count)
                 }
+                .rotationEffect(.degrees(180))
+                .clipped()
+                .onTapGesture {
+                    if isGIFPanelPresented {
+                        withAnimation {
+                            isGIFPanelPresented = false
+                        }
+                    }
+                    
+                    if keyboardDetector.isVisible {
+                        KeyboardManager.hideKeyboard()
+                    }
+                }
+                .onChange(of: viewModel.needScrollToBottom, perform: { newVal in
+                    if newVal {
+                        if let firstMess = chatModel.messages.first {
+                            scrollView.scrollTo(firstMess.id, anchor: .bottom)
+                            viewModel.needScrollToBottom = false
+                        }
+                    }
+                })
+                .onChange(of: chatModel.fillingInProgress, perform: { newVal in
+                    if newVal {
+                        allowMessagesCountAnim = false
+                    } else {
+                        allowMessagesCountAnim = true
+                    }
+                })
             }
-            
             
             VStack {
                 if (replyPanelState != .closed) {
@@ -245,40 +242,7 @@ struct ChatView: View {
             ChatMessageView(
                 message: message,
                 isDirect: isDirect,
-                onTap: {
-                    if keyboardDetector.isVisible {
-                        KeyboardManager.hideKeyboard()
-                        return
-                    }
-                    
-                    if isGIFPanelPresented {
-                        withAnimation {
-                            isGIFPanelPresented = false
-                        }
-                        return
-                    }
-                    
-                    switch message.type {
-                    case .text:
-                        break
-                    case .photo, .gif:
-                        fullscreenImageManager.show(
-                            contentView: AnyView(
-                                FullscreenPhoto(
-                                    message: message,
-                                    backPressed: {
-                                        fullscreenImageManager.hide()
-                                    })
-                            )
-                        )
-                        break
-                    case .unknown:
-                        break
-                    }
-                },
-                onDoubleTap: {
-                    //
-                },
+                onTap: onTapFunc,
                 onMessageAction: { messageAction in
                     doActionWithMessage(message: message, messageAction: messageAction)
                 },
@@ -292,6 +256,38 @@ struct ChatView: View {
                 .combined(with: .scale(scale: 0.5).combined(with: .opacity)),
             removal: .move(edge: .leading)
                 .combined(with: .scale(scale: 0.01)).combined(with: .opacity)))
+    }
+    
+    private func onTapFunc(message: Message) {
+        if keyboardDetector.isVisible {
+            KeyboardManager.hideKeyboard()
+            return
+        }
+        
+        if isGIFPanelPresented {
+            withAnimation {
+                isGIFPanelPresented = false
+            }
+            return
+        }
+        
+        switch message.type {
+        case .text:
+            break
+        case .photo, .gif:
+            fullscreenImageManager.show(
+                contentView: AnyView(
+                    FullscreenPhoto(
+                        message: message,
+                        backPressed: {
+                            fullscreenImageManager.hide()
+                        })
+                )
+            )
+            break
+        case .unknown:
+            break
+        }
     }
     
     private func showToastMessage(_ text: String) {

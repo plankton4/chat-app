@@ -31,6 +31,10 @@ class AppGlobalState: ObservableObject {
         if Config.useGuestUser {
             AppGlobalState.sessionKey = "guestkey"
             AppGlobalState.userId = UInt32.max
+            
+            // second guest user
+            //AppGlobalState.sessionKey = "1e641c567d4bed815b1a95a40b3a68b1"
+            //AppGlobalState.userId = 1
         } else {
             AppGlobalState.sessionKey = UserDefaults.standard.string(forKey: UDCustomKeys.sessionKey) ?? ""
             AppGlobalState.userId = UInt32(UserDefaults.standard.integer(forKey: UDCustomKeys.userIdKey))

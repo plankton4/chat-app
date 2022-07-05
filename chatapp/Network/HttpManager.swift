@@ -65,7 +65,11 @@ class HttpManager {
             print("URL \(resp.debugDescription)")
             switch resp.result {
             case .success(let url):
-                if Utils.verifyUrl(urlString: url) {
+                if true {
+                    // отключил пока верификацию урла, т.к. нет отдельного сервера
+                    // и приходится с сервера отдавать не целый урл, а только путь к картинке.
+                    // Полный урл затем достраивает клиент в PhotoMessage.photoUrl
+                //if Utils.verifyUrl(urlString: url) {
                     print("SUCCESS OF GETTING URL!!!")
                     completionHandler(.success(url))
                 } else {

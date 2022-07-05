@@ -11,6 +11,8 @@ import CoreGraphics
 class Consts: ObservableObject {
     
     @Published var navBarHeight: CGFloat = 0
+    @Published var safeAreaBottomInset: CGFloat = 0
+    @Published var safeAreaTopInset: CGFloat = 0
 }
 
 // keys for UserDefaults

@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct MessageContextMenuView: View {
+    
     @EnvironmentObject var consts: Consts
     @State private var offset = CGSize.zero
     @State private var showingPopover = true
@@ -59,8 +60,6 @@ struct MessageContextMenuView: View {
                         // MARK: message content
                         messageView
                             .frame(maxWidth: 0.9 * geoWidth)
-        //                    .blur(radius: 150)
-        //                    .offset(y: offset.height - 10)
                         
                         // MARK: context menu
                         VStack(alignment: .leading, spacing: 0) {
@@ -108,7 +107,6 @@ struct MessageContextMenuView: View {
                 hideView()
             }
             .animation(.default)
-            //        .background(Color.black.ignoresSafeArea().opacity(0.8))//blur(radius: 50))
         }
         .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height)
         .ignoresSafeArea()
@@ -121,7 +119,7 @@ struct MessageContextMenuView: View {
 
 struct MessageContextMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        let uiImage = UIImage(named: "shtosh")
+        let uiImage = UIImage(named: "why_cow")
         let msg = PhotoMessage(uiImage: uiImage)
         MessageContextMenuView(
             messageView: AnyView (

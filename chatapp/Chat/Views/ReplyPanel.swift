@@ -12,7 +12,7 @@ struct ReplyPanel: View {
     @State var isEdit: Bool
     
     var message: Message
-    let contentSidePadding: CGFloat = 14
+    let contentSidePadding: CGFloat = 8
     let paddingEdge = EdgeInsets(
         top: 0,
         leading: 14,
@@ -25,13 +25,15 @@ struct ReplyPanel: View {
         VStack {
             Divider()
             
-            HStack {
+            HStack(spacing: 14) {
                 Image(systemName: isEdit ? "pencil" : "arrowshape.turn.up.left")
                     .font(.system(size: 20))
+                    //.padding(.leading, 8)
                 
                 Divider()
                     .frame(width: 2)
-                    .padding(.leading, contentSidePadding)
+                    .background(Color.primary)
+                    //.padding(.leading, contentSidePadding)
                 
                 messageContent(message)
                 
@@ -51,36 +53,59 @@ struct ReplyPanel: View {
         .padding(paddingEdge)
     }
     
-    private func messageContent(_ message: Message) -> AnyView {
+    @ViewBuilder
+    private func messageContent(_ message: Message) -> some View {
         switch message.type {
             case .text:
                 if let textMessage = message as? TextMessage {
-                    return AnyView(
-                        VStack (alignment: .leading, spacing: 4) {
+                    VStack (alignment: .leading, spacing: 4) {
+                        Text(titleText())
+                            .font(.subheadline)
+                            .foregroundColor(.blue)
+                            .bold()
+                            .lineLimit(1)
+                        
+                        Text(textMessage.text)
+                            .lineLimit(2)
+                            .frame(minWidth: 50, alignment: .leading)
+                    }
+                    //.padding(paddingEdge)
+                } else {
+                    EmptyView()
+                }
+            case .gif:
+                if let gifMessage = message as? GIFMessage, let gifUrl = URL(string: gifMessage.gifUrl) {
+                    HStack {
+                        AnimatedImage(url: gifUrl)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: 50)
+                            //.padding(paddingEdge)
+                        VStack (alignment: .leading) {
                             Text(titleText())
                                 .font(.subheadline)
                                 .foregroundColor(.blue)
                                 .bold()
                                 .lineLimit(1)
-                            
-                            Text(textMessage.text)
-                                .lineLimit(2)
-                                .frame(minWidth: 50, alignment: .leading)
+                            Spacer()
+                            Text("GIF")
+                                .font(.subheadline)
+                                .lineLimit(1)
                         }
-                        .padding(paddingEdge)
-                    )
+                        //.padding(paddingEdge)
+                    }
                 } else {
-                    return AnyView(EmptyView())
+                    EmptyView()
                 }
-            case .gif:
-                if let gifMessage = message as? GIFMessage, let gifUrl = URL(string: gifMessage.gifUrl) {
-                    return AnyView(
+            case .photo:
+                if let photoMessage = message as? PhotoMessage {
+                    if let photoUrl = URL(string: photoMessage.photoUrl ?? "") {
                         HStack {
-                            AnimatedImage(url: gifUrl)
+                            WebImage(url: photoUrl)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(maxWidth: 50)
-                                .padding(paddingEdge)
+                                .frame(maxWidth: 50, maxHeight: 50)
+                                .fixedSize()
                             VStack (alignment: .leading) {
                                 Text(titleText())
                                     .font(.subheadline)
@@ -88,71 +113,40 @@ struct ReplyPanel: View {
                                     .bold()
                                     .lineLimit(1)
                                 Spacer()
-                                Text("GIF")
+                                Text("Photo")
                                     .font(.subheadline)
                                     .lineLimit(1)
                             }
-                            .padding(paddingEdge)
+                            //.padding(paddingEdge)
                         }
-                    )
-                } else {
-                    return AnyView(EmptyView())
-                }
-            case .photo:
-                if let photoMessage = message as? PhotoMessage {
-                    if let photoUrl = URL(string: photoMessage.photoUrl ?? "") {
-                        return AnyView(
-                            HStack {
-                                WebImage(url: photoUrl)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxWidth: 50, maxHeight: 50)
-                                    .fixedSize()
-                                VStack (alignment: .leading) {
-                                    Text(titleText())
-                                        .font(.subheadline)
-                                        .foregroundColor(.blue)
-                                        .bold()
-                                        .lineLimit(1)
-                                    Spacer()
-                                    Text("Photo")
-                                        .font(.subheadline)
-                                        .lineLimit(1)
-                                }
-                                .padding(paddingEdge)
-                            }
-                        )
                     } else if let uiImage = photoMessage.uiImage {
-//                        let imageRatio = uiImage.size.width / uiImage.size.height
-                        return AnyView(
-                            HStack {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxWidth: 50)
-//                                    .fixedSize(horizontal: imageRatio < 1, vertical: imageRatio >= 1)
-                                VStack (alignment: .leading) {
-                                    Text(titleText())
-                                        .font(.subheadline)
-                                        .foregroundColor(.blue)
-                                        .bold()
-                                        .lineLimit(1)
-                                    Spacer()
-                                    Text("Photo")
-                                        .font(.subheadline)
-                                        .lineLimit(1)
-                                }
-                                .padding(paddingEdge)
+                        HStack {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: 50)
+                            VStack (alignment: .leading) {
+                                Text(titleText())
+                                    .font(.subheadline)
+                                    .foregroundColor(.blue)
+                                    .bold()
+                                    .lineLimit(1)
+                                Spacer()
+                                Text("Photo")
+                                    .font(.subheadline)
+                                    .lineLimit(1)
                             }
-                        )
+                            //.padding(paddingEdge)
+                        }
+                        
                     } else {
-                        return AnyView(EmptyView())
+                        EmptyView()
                     }
                 } else {
-                    return AnyView(EmptyView())
+                    EmptyView()
                 }
             case .unknown:
-                return AnyView(EmptyView())
+            EmptyView()
         }
     }
     

@@ -15,66 +15,76 @@ struct MainView: View {
     @ObservedObject var chatListModel = AppData.shared.chatsModel
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                ZStack {
-                    ChatListView()
-                        .zIndex(globalState.activeMenuTab == .chats ? 1 : 0)
-                    
-                    SettingsView()
-                        .zIndex(globalState.activeMenuTab == .settings ? 1 : 0)
-                }
-                
+        GeometryReader { geo in
+            NavigationView {
                 VStack(spacing: 0) {
-                    Divider()
-                    
-                    HStack {
-                        VStack {
-                            Image(systemName: "message.fill")
-                                .font(.system(size: 20))
-                            Text("Chats")
-                        }
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(globalState.activeMenuTab == .chats ? .blue : .gray)
-                        .onTapGesture {
-                            globalState.activeMenuTab = .chats
-                        }
+                    ZStack {
+                        ChatListView()
+                            .zIndex(globalState.activeMenuTab == .chats ? 1 : 0)
                         
-                        VStack {
-                            Image(systemName: "gear")
-                                .font(.system(size: 20))
-                            Text("Settings")
-                        }
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(globalState.activeMenuTab == .settings ? .blue : .gray)
-                        .onTapGesture {
-                            globalState.activeMenuTab = .settings
-                        }
+                        SettingsView()
+                            .zIndex(globalState.activeMenuTab == .settings ? 1 : 0)
                     }
-                    .frame(width: UIScreen.main.bounds.width)
-                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
-                    .background(Color("ChatBottom").ignoresSafeArea())
+                    
+                    VStack(spacing: 0) {
+                        Divider()
+                        
+                        HStack {
+                            VStack {
+                                Image(systemName: "message.fill")
+                                    .font(.system(size: 20))
+                                Text("Chats")
+                            }
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(globalState.activeMenuTab == .chats ? .blue : .gray)
+                            .onTapGesture {
+                                globalState.activeMenuTab = .chats
+                            }
+                            
+                            VStack {
+                                Image(systemName: "gear")
+                                    .font(.system(size: 20))
+                                Text("Settings")
+                            }
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(globalState.activeMenuTab == .settings ? .blue : .gray)
+                            .onTapGesture {
+                                globalState.activeMenuTab = .settings
+                            }
+                        }
+                        .frame(width: UIScreen.main.bounds.width)
+                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                        .background(Color("ChatBottom").ignoresSafeArea())
+                    }
                 }
+                .background(NavBarAccessor { navBar in
+                    if consts.navBarHeight == 0 {
+                        consts.navBarHeight = navBar.bounds.height
+                    }
+                })
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle(globalState.activeMenuTab.title)
             }
-            .background(NavBarAccessor { navBar in
-                if consts.navBarHeight == 0 {
-                    consts.navBarHeight = navBar.bounds.height
+            .onAppear(perform: {
+                if consts.safeAreaBottomInset == 0 {
+                    consts.safeAreaBottomInset = geo.safeAreaInsets.bottom
+                }
+                if consts.safeAreaTopInset == 0 {
+                    consts.safeAreaTopInset = geo.safeAreaInsets.top
                 }
             })
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(globalState.activeMenuTab.title)
+            // нужно вывалиться на логинСкрин, если аутентификация не прошла
+            .onReceive(NotificationCenter.default.publisher(for: .nameAuthAnswerReceived)) { notification in
+                guard let userInfo = notification.userInfo else { return }
+                guard let authAnswer = userInfo["Data"] as? PBCommon_AuthenticationAnswer else {
+                    return
+                }
+                
+                print("Auth Answer Received \(authAnswer)")
+                if authAnswer.isRegistration == 1 {
+                    globalState.currentContentView = .loginScreen
+                }
         }
-        // нужно вывалиться на логинСкрин, если аутентификация не прошла
-        .onReceive(NotificationCenter.default.publisher(for: .nameAuthAnswerReceived)) { notification in
-            guard let userInfo = notification.userInfo else { return }
-            guard let authAnswer = userInfo["Data"] as? PBCommon_AuthenticationAnswer else {
-                return
-            }
-            
-            print("Auth Answer Received \(authAnswer)")
-            if authAnswer.isRegistration == 1 {
-                globalState.currentContentView = .loginScreen
-            }
         }
     }
 }

@@ -18,18 +18,18 @@ struct GIFMessageView: View {
             VStack(alignment: .leading) {
                 gifContent(gifUrl)
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
         } else {
             EmptyView()
         }
     }
     
-    private func gifContent(_ gifUrl: URL) -> AnyView {
-        return AnyView (
-            AnimatedImage(url: gifUrl)
-                .scaledToFit()
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
-        )
+    @ViewBuilder
+    private func gifContent(_ gifUrl: URL) -> some View {
+        AnimatedImage(url: gifUrl)
+            .scaledToFit()
+            .frame(
+                maxWidth: UIScreen.main.bounds.width * 0.7
+            )
     }
 }
 

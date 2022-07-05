@@ -30,7 +30,7 @@ enum MessageReaction: String, Equatable, CaseIterable {
 
 struct ChatMessageView: View {
     
-    typealias onTapFuncType = (() -> Void)?
+    typealias onTapFuncType = ((Message) -> Void)?
     
     @EnvironmentObject var fullscreenImageManager: FullscreenImageManager
     
@@ -39,6 +39,7 @@ struct ChatMessageView: View {
     @State private var isReactionVisible = false
     @State private var replyHeight = CGFloat(100)
     @State private var contentViewSize: CGSize = .zero
+    @State private var replyContentViewSize: CGSize = .zero
     @State private var replyViewSize: CGSize = .zero
     
     var isDirect: Bool
@@ -46,7 +47,6 @@ struct ChatMessageView: View {
     let contentSidePadding: CGFloat = 14
     
     var onTap: onTapFuncType
-    var onDoubleTap: onTapFuncType
     var onMessageAction: ((MessageAction) -> Void)?
     var onContextMenuOpenChanged: ((Bool) -> Void)?
         
@@ -61,7 +61,7 @@ struct ChatMessageView: View {
             }
             VStack(alignment: .leading, spacing: messageVerticalSpacing) {
                 if !isSentByCurrentUser {
-                    Text(String(message.userID))
+                    Text("Duck #" + String(String(message.userID).last!))
                         .font(.headline)
                         .foregroundColor(.blue)
                         .bold()
@@ -74,7 +74,11 @@ struct ChatMessageView: View {
                 
                 if let replyMessage = message.replyMessage {
                     replyView(replyMessage)
-                        .padding(EdgeInsets(top: 7, leading: 20,bottom: 3, trailing: 10))
+                        .onTapGesture {
+                            if (!forContextMenu) {
+                                onTap?(replyMessage)
+                            }
+                        }
                         .readSize { size in
                             replyViewSize = size
                         }
@@ -105,22 +109,24 @@ struct ChatMessageView: View {
                         Text(Utils.getStringDate(unixTime: message.time))
                             .font(.system(.caption))
                             .italic()
-                            .foregroundColor(isSentByCurrentUser ? Color(.systemGray4) : .secondary)
+                            .foregroundColor(isSentByCurrentUser ? Color.white : .secondary)
                             .lineLimit(1)
                     }
                 }
-                .frame(
-                    minWidth: max(
-                        (contentViewSize.width - (contentSidePadding * 2)),
-                        replyViewSize.width
-                    )
-                )
-                .fixedSize(horizontal: true, vertical: false)
                 .padding(EdgeInsets(
                     top: 0,
                     leading: contentSidePadding,
                     bottom: 0,
-                    trailing: contentSidePadding + 3))
+                    trailing: contentSidePadding))
+                .frame(
+                    minWidth: max(
+                        (contentViewSize.width),
+                        replyViewSize.width
+                    )
+                )
+                .fixedSize(horizontal: true, vertical: false)
+
+                
             }
             .padding(EdgeInsets(
                 top: contentTopPadding,
@@ -135,12 +141,11 @@ struct ChatMessageView: View {
                     withAnimation(.spring().speed(2)) {
                         isReactionVisible.toggle()
                     }
-                    onDoubleTap?()
                 }
             }
             .onTapGesture {
                 if (!forContextMenu) {
-                    onTap?()
+                    onTap?(message)
                 }
             }
             .onLongPressGesture {
@@ -191,7 +196,7 @@ struct ChatMessageView: View {
         isDirect: Bool = false,
         forContextMenu: Bool = false,
         onTap: onTapFuncType = nil,
-        onDoubleTap: onTapFuncType = nil,
+        onReplyTap: onTapFuncType = nil,
         onMessageAction: ((MessageAction) -> Void)? = nil,
         onContextMenuOpenChanged: ((Bool) -> Void)? = nil
     )
@@ -200,7 +205,6 @@ struct ChatMessageView: View {
         self.isDirect = isDirect
         self.forContextMenu = forContextMenu
         self.onTap = onTap
-        self.onDoubleTap = onDoubleTap
         self.onMessageAction = onMessageAction
         self.onContextMenuOpenChanged = onContextMenuOpenChanged
         self.isReactionVisible = !message.reactions.isEmpty
@@ -208,28 +212,32 @@ struct ChatMessageView: View {
     
     @ViewBuilder
     private func replyView(_ replyMessage: Message) -> some View {
-        HStack {
+        HStack(alignment: .bottom) {
             Divider()
                 .frame(width: 2)
+                .frame(maxHeight: replyContentViewSize.height + 24)
                 .background(isSentByCurrentUser ? Color.white : Color.primary)
             
             VStack (alignment: .leading, spacing: 4) {
-                Text(String(message.userID))
+                Text("Duck #" + String(String(message.userID).last!))
                     .font(.subheadline)
-                    //.italic()
                     .foregroundColor(isSentByCurrentUser ? Color.white : Color.primary)
-                    //.bold()
-                    .padding(EdgeInsets(
-                        top: 0,
-                        leading: 0,
-                        bottom: 1,
-                        trailing: 0))
                 contentView(replyMessage, isReply: true)
-                //.cornerRadius(10)
+                    .readSize { size in
+                        replyContentViewSize = size
+                    }
+            }
+            
+            if replyMessage.type == .text && (message.type == .photo || message.type == .gif) {
+                Spacer()
             }
         }
-        .fixedSize(horizontal: false, vertical: true)
-        
+        .padding(EdgeInsets(top: 0, leading: 14,bottom: 0, trailing: 14))
+        .frame(
+            maxWidth: replyMessage.type == .text && (message.type == .photo || message.type == .gif)
+            ? (contentViewSize.width)
+            : nil
+        )
     }
     
     @ViewBuilder
@@ -260,7 +268,17 @@ struct ChatMessageView: View {
             }
         case .photo:
             if let photoMessage = message as? PhotoMessage {
-                PhotoMessageView(message: photoMessage)
+                if isReply {
+                    PhotoMessageView(message: photoMessage)
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.65,
+                               maxHeight: UIScreen.main.bounds.width * 0.65)
+                        .fixedSize(horizontal: photoMessage.aspectRatio < 1, vertical: photoMessage.aspectRatio >= 1)
+                } else {
+                    PhotoMessageView(message: photoMessage)
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.75,
+                               maxHeight: UIScreen.main.bounds.width * 0.75)
+                        .fixedSize(horizontal: photoMessage.aspectRatio < 1, vertical: photoMessage.aspectRatio >= 1)
+                }
             } else {
                 EmptyView()
             }
@@ -281,7 +299,7 @@ struct ChatMessageView: View {
     private var background: Color {
         switch message.type {
         case .text, .photo, .gif, .unknown:
-            return isSentByCurrentUser ? Color(UIColor.systemBlue) : Color(.systemGray5)
+            return isSentByCurrentUser ? Color("SelfMessageBubble") : Color(.systemGray5)
         }
     }
     
@@ -305,7 +323,7 @@ struct ChatMessageView: View {
     }
     
     private var contentTopPadding: CGFloat {
-        if isSentByCurrentUser && (message.type == .gif || message.type == .photo) {
+        if isSentByCurrentUser && message.replyMessage == nil && (message.type == .gif || message.type == .photo) {
             return 0
         } else {
             return 8
@@ -328,27 +346,55 @@ struct ChatMessageView_Previews: PreviewProvider {
                 .previewLayout(.sizeThatFits)
             ChatMessageView(message: previewTextMess())
                 .previewLayout(.sizeThatFits)
+            ChatMessageView(message: previewMess2())
+                .previewLayout(.sizeThatFits)
+            ChatMessageView(message: previewTextMess2())
+                .previewLayout(.sizeThatFits)
         }
-
-        //        ChatMessageView(message: PhotoMessage(id: 0, uiImage: image))
-//                ChatMessageView(message: PhotoMessage(id: 0, uiImage: image, description: "some descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome description"))
-        
-        //.previewLayout(.fixed(width: 400.0, height: 100.0))
     }
     
     static func previewMess() -> Message {
-        let image = UIImage(named: "why_cow")
+        let image = UIImage(named: "cow2")
         let replyMessage = replyMsg()
         let photoMess = PhotoMessage(uiImage: image)
-        photoMess.replyMessage = replyMessage
-        photoMess.isSentByCurrentUser = false
+        photoMess.aspectRatio = 0.5
+        //photoMess.replyMessage = replyMessage
+        photoMess.isSentByCurrentUser = true
         photoMess.time = 1653450713
         
         return photoMess
     }
     
     static func previewTextMess() -> Message {
-        let textMess = TextMessage(text: "aaaaaaaaaaaaaaaaaaa")
+        let image = UIImage(named: "tall_image")
+        let photoMess = PhotoMessage(uiImage: image)
+        photoMess.aspectRatio = 0.5
+        let textMess = TextMessage(text: "aaa")
+        textMess.replyMessage = photoMess
+        textMess.isSentByCurrentUser = true
+        textMess.time = 1653450713
+        
+        return textMess
+    }
+    
+    static func previewMess2() -> Message {
+        let image = UIImage(named: "why_cow")
+        let replyMessage = replyMsg()
+        let photoMess = PhotoMessage(uiImage: image)
+        photoMess.aspectRatio = 2
+        photoMess.replyMessage = replyMessage
+        photoMess.isSentByCurrentUser = true
+        photoMess.time = 1653450713
+        
+        return photoMess
+    }
+    
+    static func previewTextMess2() -> Message {
+        let image = UIImage(named: "why_cow")
+        let photoMess = PhotoMessage(uiImage: image)
+        photoMess.aspectRatio = 2
+        let textMess = TextMessage(text: "aaa")
+        textMess.replyMessage = photoMess
         textMess.isSentByCurrentUser = true
         textMess.time = 1653450713
         

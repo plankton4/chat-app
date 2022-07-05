@@ -61,6 +61,7 @@ class Message: Identifiable, Equatable, ObservableObject {
 }
 
 class TextMessage: Message {
+    
     @Published var text: String
 
     init(id: String, userID: UInt32, text: String = "") {
@@ -83,6 +84,7 @@ class TextMessage: Message {
 }
 
 class GIFMessage: Message {
+    
     var gifUrl: String
 
     init(id: String, userID: UInt32, url: String) {
@@ -105,7 +107,27 @@ class GIFMessage: Message {
 }
 
 class PhotoMessage: Message {
-    var photoUrl: String?
+    
+    var photoUrl: String? {
+        get {
+            guard let photoUrl = _photoUrl else {
+                return nil
+            }
+            
+            switch Config.serverPlace {
+            case .local:
+                return HttpManager.ServerAddress.localhost + Config.fileServerPrefix + photoUrl
+            case .remote:
+                return HttpManager.ServerAddress.remotehost + Config.fileServerPrefix + photoUrl
+            }
+        }
+        
+        set {
+            _photoUrl = newValue
+        }
+    }
+    private var _photoUrl: String?
+    
     var uiImage: UIImage?
     var aspectRatio: Float = 1.0
     
@@ -115,22 +137,22 @@ class PhotoMessage: Message {
         photoUrl: String? = nil,
         uiImage: UIImage? = nil)
     {
-        self.photoUrl = photoUrl
-        self.uiImage = uiImage
         super.init(id: id, userID: userID, type: .photo)
+        self._photoUrl = photoUrl
+        self.uiImage = uiImage
     }
     
     init(photoUrl: String? = nil, uiImage: UIImage? = nil) {
-        self.photoUrl = photoUrl
-        self.uiImage = uiImage
         super.init(id: "", userID: 0, type: .photo)
+        self._photoUrl = photoUrl
+        self.uiImage = uiImage
     }
     
     override func getCopyForReply() -> Message {
         let mess = PhotoMessage(
             id: self.id,
             userID: self.userID,
-            photoUrl: self.photoUrl,
+            photoUrl: self._photoUrl,
             uiImage: self.uiImage)
         fillBaseCopy(child: mess)
         

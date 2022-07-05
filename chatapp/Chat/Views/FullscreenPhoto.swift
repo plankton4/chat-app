@@ -23,17 +23,27 @@ struct FullscreenPhoto: View {
                 .opacity(1 - Double(abs(offset.height / 300)))
             
             VStack {
-                CustomBackButton(foregroundColor: Color.white, backgroundColor: Color.black) {
-                    backPressed()
+                HStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        backPressed()
+                    }, label: {
+                        Text("Close")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .bold()
+                    })
+                    .frame(width: 100, height: consts.navBarHeight)
+                    .padding(EdgeInsets(top: consts.safeAreaTopInset, leading: 0, bottom: 0, trailing: 8))
+                    .opacity(offset.height == 0 ? 1 : 0)
+                    .animation(.default.speed(2), value: offset.height)
                 }
-                .padding(.top, consts.navBarHeight / 2)
-                .opacity(offset.height == 0 ? 1 : 0)
-                .animation(.default.speed(2), value: offset.height)
                 
                 Spacer()
                 
                 photoView()
-                    .padding(.bottom, consts.navBarHeight * 0.8)
+                    .padding(.bottom, consts.navBarHeight * 0.9)
                     .offset(y: offset.height)
                     .gesture(
                         DragGesture()
