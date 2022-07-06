@@ -571,7 +571,7 @@ extension WebSocketController {
             
         // GetAllChatMessagesAnswer
         case .messGetAllChatMessagesAnswer(let answer):
-            print("WebSocket HANDLE GetAllChatMessagesAnswer \(pbMess)")
+            print("WebSocket HANDLE GetAllChatMessagesAnswer")
             chatsHandler.handleGetAllChatMessagesAnswer(
                 userID: answer.hasUserID ? answer.userID : nil,
                 chatID: answer.hasChatID ? answer.chatID : nil,

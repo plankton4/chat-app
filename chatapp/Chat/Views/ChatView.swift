@@ -40,14 +40,18 @@ struct ChatView: View {
             
             ScrollViewReader { scrollView in
                 ScrollView(showsIndicators: false) {
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(height: 0)
+                        .id("AnchorRect")
+                    
                     LazyVStack {
                         ForEach(chatModel.messages) { message in
                             messageView(message: message, isDirect: chat.isDirect)
                                 .rotationEffect(.degrees(180))
                         }
                     }
-                    .id("ChatVStack")
-                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
                     .animation(
                         allowMessagesCountAnim ? .spring().speed(2) : nil,
                         value: chatModel.messages.count)
@@ -67,10 +71,10 @@ struct ChatView: View {
                 }
                 .onChange(of: viewModel.needScrollToBottom, perform: { newVal in
                     if newVal {
-                        if let firstMess = chatModel.messages.first {
-                            scrollView.scrollTo(firstMess.id, anchor: .bottom)
+                        //if let firstMess = chatModel.messages.first {
+                            scrollView.scrollTo("AnchorRect", anchor: .top)
                             viewModel.needScrollToBottom = false
-                        }
+                        //}
                     }
                 })
                 .onChange(of: chatModel.fillingInProgress, perform: { newVal in
@@ -351,8 +355,10 @@ struct ChatView: View {
         }
         
         if replyPanelState != .closed {
+            if replyPanelState == .reply {
+                KeyboardManager.hideKeyboard()
+            }
             replyPanelState = .closed
-            KeyboardManager.hideKeyboard()
         }
         
         self.text = ""
