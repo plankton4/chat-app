@@ -22,6 +22,14 @@ struct PhotoMessageView: View {
         if let photoUrl = URL(string: message.photoUrl ?? "") {
             WebImage(url: photoUrl)
                 .resizable()
+                .placeholder {
+                    Rectangle()
+                        .frame(
+                            width: message.aspectRatio >= 1 ? UIScreen.main.bounds.width * 0.75 : 250,
+                            height: message.aspectRatio >= 1 ? 250 : UIScreen.main.bounds.width * 0.75
+                        )
+                        .foregroundColor(Color(UIColor.systemGray5))
+                }
                 .indicator(.activity)
                 .transition(.fade(duration: 0.5))
                 .scaledToFit()

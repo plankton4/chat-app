@@ -89,7 +89,7 @@ struct ChatMessageView: View {
                         contentViewSize = size
                     }
                 
-                HStack(spacing: 4) {
+                HStack(spacing: 8) {
                     if isReactionVisible {
                         MessageReactionView()
                             .transition(.scale)
@@ -97,21 +97,20 @@ struct ChatMessageView: View {
                     
                     Spacer(minLength: 0)
                     
-                    if message.isEdited {
-                        Text("Edited")
-                            .font(.system(.caption))
-                            .italic()
-                            .foregroundColor(Color(.systemGray5))
-                            .lineLimit(1)
+                    Group {
+                        if message.isEdited {
+                            Text("Edited")
+                                .italic()
+                        }
+                        
+                        if message.time > 0 {
+                            Text(Utils.getStringDate(unixTime: message.time))
+                                .italic()
+                        }
                     }
-                    
-                    if message.time > 0 {
-                        Text(Utils.getStringDate(unixTime: message.time))
-                            .font(.system(.caption))
-                            .italic()
-                            .foregroundColor(isSentByCurrentUser ? Color.white : .secondary)
-                            .lineLimit(1)
-                    }
+                    .font(.system(.caption))
+                    .foregroundColor(isSentByCurrentUser ? Color.white : .secondary)
+                    .lineLimit(1)
                 }
                 .padding(EdgeInsets(
                     top: 0,
@@ -355,7 +354,7 @@ struct ChatMessageView_Previews: PreviewProvider {
     
     static func previewMess() -> Message {
         let image = UIImage(named: "cow2")
-        let replyMessage = replyMsg()
+        //let replyMessage = replyMsg()
         let photoMess = PhotoMessage(uiImage: image)
         photoMess.aspectRatio = 0.5
         //photoMess.replyMessage = replyMessage

@@ -56,6 +56,7 @@ struct MessageContextMenuView: View {
                         .cornerRadius(reactionsStackSize.height/2)
                         .shadow(radius: 2)
                         .padding(.bottom)
+                        //.animation(.default)
                         
                         // MARK: message content
                         messageView
@@ -67,24 +68,27 @@ struct MessageContextMenuView: View {
                                 onContextMenuButtonTapped()
                                 onMessageAction(.reply)
                             }
+                            
                             Divider()
                             
-                            if (message.isSentByCurrentUser) {
+                            if (message.isSentByCurrentUser && message.type == .text) {
                                 ContextMenuButton(labelText: "Edit")  {
                                     onContextMenuButtonTapped()
                                     onMessageAction(.edit)
                                 }
                                 Divider()
                             }
-                             
-                            ContextMenuButton(labelText: "Copy")  {
-                                onContextMenuButtonTapped()
-                                onMessageAction(.copy)
+                            
+                            if message.type == .text { 
+                                ContextMenuButton(labelText: "Copy")  {
+                                    onContextMenuButtonTapped()
+                                    onMessageAction(.copy)
+                                }
+                                
+                                Divider()
                             }
                             
                             if (message.isSentByCurrentUser) {
-                                Divider()
-                                
                                 ContextMenuButton(labelText: "Delete") {
                                     onContextMenuButtonTapped()
                                     onMessageAction(.delete)
@@ -106,7 +110,6 @@ struct MessageContextMenuView: View {
             .onTapGesture {
                 hideView()
             }
-            .animation(.default)
         }
         .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height)
         .ignoresSafeArea()

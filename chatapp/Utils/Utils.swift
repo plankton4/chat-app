@@ -22,7 +22,7 @@ struct Utils {
         let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short //Set time style
-        dateFormatter.dateStyle = .short //Set date style
+        dateFormatter.dateStyle = .none //Set date style
         dateFormatter.timeZone = .current
         let localDate = dateFormatter.string(from: date)
         

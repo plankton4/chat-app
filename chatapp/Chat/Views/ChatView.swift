@@ -354,10 +354,10 @@ struct ChatView: View {
         
         if replyPanelState != .closed {
             replyPanelState = .closed
+            KeyboardManager.hideKeyboard()
         }
         self.text = ""
         self.replyPanelMessage = nil
-        //        KeyboardManager.hideKeyboard()
     }
     
     private func doActionWithMessage(message: Message, messageAction: MessageAction) {

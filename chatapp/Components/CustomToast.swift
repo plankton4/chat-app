@@ -19,6 +19,8 @@ struct Toast: ViewModifier {
     @Binding var isShowing: Bool
     let config: Config
     
+    @StateObject private var viewModel = ToastViewModel()
+    
     func body(content: Content) -> some View {
         ZStack {
             content
@@ -42,17 +44,32 @@ struct Toast: ViewModifier {
                 .onTapGesture {
                     isShowing = false
                 }
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + config.duration) {
-                        isShowing = false
-                    }
-                }
             }
         }
         .padding(.horizontal, 16)
-        .padding(.bottom, 18)
+        .padding(.bottom, 80)
         .animation(config.animation, value: isShowing)
         .transition(config.transition)
+        .onChange(of: isShowing, perform: { _ in
+            if isShowing {
+                viewModel.toastSwitch?.cancel()
+                
+                viewModel.toastSwitch = DispatchWorkItem {
+                    isShowing = false
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + config.duration, execute: viewModel.toastSwitch!)
+            } else {
+                viewModel.toastSwitch?.cancel()
+            }
+        })
+    }
+}
+
+extension Toast {
+    
+    @MainActor class ToastViewModel: ObservableObject {
+        var toastSwitch: DispatchWorkItem?
     }
 }
 
@@ -85,6 +102,7 @@ extension Toast {
 }
 
 extension View {
+    
     func toast(message: String, isShowing: Binding<Bool>, config: Toast.Config) -> some View {
         self.modifier(Toast(message: message, isShowing: isShowing, config: config))
     }

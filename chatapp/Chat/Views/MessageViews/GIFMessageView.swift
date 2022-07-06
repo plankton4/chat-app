@@ -26,6 +26,16 @@ struct GIFMessageView: View {
     @ViewBuilder
     private func gifContent(_ gifUrl: URL) -> some View {
         AnimatedImage(url: gifUrl)
+            .placeholder {
+                Rectangle()
+                    .frame(
+                        width: UIScreen.main.bounds.width * 0.7,
+                        height: UIScreen.main.bounds.width * 0.7
+                    )
+                    .foregroundColor(Color(UIColor.systemGray5))
+            }
+            .indicator(.activity)
+            .transition(.fade(duration: 0.5))
             .scaledToFit()
             .frame(
                 maxWidth: UIScreen.main.bounds.width * 0.7

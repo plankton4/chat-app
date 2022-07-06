@@ -25,6 +25,7 @@ struct MainView: View {
                         SettingsView()
                             .zIndex(globalState.activeMenuTab == .settings ? 1 : 0)
                     }
+                    .clipped()
                     
                     VStack(spacing: 0) {
                         Divider()
