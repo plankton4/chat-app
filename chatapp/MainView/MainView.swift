@@ -85,7 +85,7 @@ struct MainView: View {
                 if authAnswer.isRegistration == 1 {
                     globalState.currentContentView = .loginScreen
                 }
-        }
+            }
         }
     }
 }

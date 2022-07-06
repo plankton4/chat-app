@@ -108,24 +108,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 extension AppDelegate: MessagingDelegate {
     
+    // TODO: If necessary send token to application server.
+    // Note: This callback is fired at each app startup and whenever a new token is generated.
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("PUSH Firebase registration token: \(String(describing: fcmToken))")
         
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(
-            name: Notification.Name("FCMToken"),
-            object: nil,
-            userInfo: dataDict
-        )
-        
-        // TODO: If necessary send token to application server.
-        // Note: This callback is fired at each app startup and whenever a new token is generated.
         if let fcmToken = fcmToken {
             AppGlobalState.fcmToken = fcmToken
             
-            if AppGlobalState.userId != 0 {
-                WS.subscribeToPush(token: AppGlobalState.fcmToken)
-                AppGlobalState.pushSubscribed = true
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(
+                    name: .nameFCMTokenReceived,
+                    object: nil,
+                    userInfo: [:])
             }
         } else {
             print("Error in didReceiveRegistrationToken! Token in nil!")

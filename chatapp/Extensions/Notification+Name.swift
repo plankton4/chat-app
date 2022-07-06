@@ -14,4 +14,6 @@ extension Notification.Name {
     static let nameSocketOpened = Notification.Name(rawValue: "NameSocketOpened")
     
     static let nameOpenFromPush = Notification.Name(rawValue: "NameOpenFromPush")
+    
+    static let nameFCMTokenReceived = Notification.Name(rawValue: "NameFCMTokenReceived")
 }

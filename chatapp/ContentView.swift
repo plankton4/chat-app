@@ -23,6 +23,12 @@ struct ContentView: View {
                             userId: AppGlobalState.userId,
                             sessionKey: AppGlobalState.sessionKey)
                     }
+                    .onReceive(NotificationCenter.default.publisher(for: .nameFCMTokenReceived)) { notification in
+                        if !AppGlobalState.pushSubscribed && !AppGlobalState.fcmToken.isEmpty {
+                            WS.subscribeToPush(token: AppGlobalState.fcmToken)
+                            AppGlobalState.pushSubscribed = true
+                        }
+                    }
             case .loginScreen:
                 LoginScreenView()
             }
