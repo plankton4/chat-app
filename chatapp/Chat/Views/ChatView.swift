@@ -296,8 +296,6 @@ struct ChatView: View {
     }
     
     private func sendMessage(_ message: Message) {
-        viewModel.needScrollToBottom = true
-        
         if let reply = replyPanelMessage {
             if replyPanelState == .reply {
                 message.replyMessage = reply
@@ -356,8 +354,13 @@ struct ChatView: View {
             replyPanelState = .closed
             KeyboardManager.hideKeyboard()
         }
+        
         self.text = ""
         self.replyPanelMessage = nil
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            viewModel.needScrollToBottom = true
+        }
     }
     
     private func doActionWithMessage(message: Message, messageAction: MessageAction) {
