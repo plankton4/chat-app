@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 
 struct ChatView: View {
     
-    @StateObject private var viewModel = ChatViewViewModel()
     @ObservedObject var chatModel: MessagesModel
     @EnvironmentObject var fullscreenImageManager: FullscreenImageManager
     @EnvironmentObject var consts: Consts
@@ -30,7 +29,10 @@ struct ChatView: View {
     @State private var messageContextMenuOpened = false
     @State private var replyPanelMessage: Message? = nil
     @State private var text: String = ""
-    @State var allowMessagesCountAnim = false
+    @State private var allowMessagesCountAnim = false
+    @State private var needScrollToBottom = false
+    @State private var textView: UITextView?
+    @State private var getMessagesFloodProtectionActivated = false
     
     let chat: Chat
     
@@ -69,11 +71,11 @@ struct ChatView: View {
                         KeyboardManager.hideKeyboard()
                     }
                 }
-                .onChange(of: viewModel.needScrollToBottom, perform: { newVal in
+                .onChange(of: needScrollToBottom, perform: { newVal in
                     if newVal {
                         //if let firstMess = chatModel.messages.first {
                             scrollView.scrollTo("AnchorRect", anchor: .top)
-                            viewModel.needScrollToBottom = false
+                            needScrollToBottom = false
                         //}
                     }
                 })
@@ -114,7 +116,7 @@ struct ChatView: View {
                         HStack(alignment: .bottom) {
                             TextEditorView(string: $text)
                                 .introspectTextView { textView in
-                                    viewModel.textView = textView
+                                    self.textView = textView
                                 }
                             
                             ZStack {
@@ -365,7 +367,7 @@ struct ChatView: View {
         self.replyPanelMessage = nil
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            viewModel.needScrollToBottom = true
+            needScrollToBottom = true
         }
     }
     
@@ -396,7 +398,7 @@ struct ChatView: View {
         case .text:
             if let textMessage = message as? TextMessage {
                 text = textMessage.text
-                viewModel.textView?.becomeFirstResponder()
+                textView?.becomeFirstResponder()
             }
             break
         default:
@@ -435,26 +437,17 @@ struct ChatView: View {
     }
     
     private func getMessages() {
-        if viewModel.getMessagesFloodProtectionActivated {
+        if getMessagesFloodProtectionActivated {
             return
         }
         
         chatModel.fillingInProgress = true
         WS.getAllChatMessages(chatID: chat.id)
         
-        viewModel.getMessagesFloodProtectionActivated = true
+        getMessagesFloodProtectionActivated = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            viewModel.getMessagesFloodProtectionActivated = false
+            getMessagesFloodProtectionActivated = false
         }
-    }
-}
-
-extension ChatView {
-    
-    @MainActor class ChatViewViewModel: ObservableObject {
-        @Published var needScrollToBottom = false
-        var textView: UITextView?
-        var getMessagesFloodProtectionActivated = false
     }
 }
 

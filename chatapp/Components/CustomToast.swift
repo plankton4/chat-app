@@ -19,7 +19,7 @@ struct Toast: ViewModifier {
     @Binding var isShowing: Bool
     let config: Config
     
-    @StateObject private var viewModel = ToastViewModel()
+    @State var toastSwitch: DispatchWorkItem?
     
     func body(content: Content) -> some View {
         ZStack {
@@ -52,24 +52,15 @@ struct Toast: ViewModifier {
         .transition(config.transition)
         .onChange(of: isShowing, perform: { _ in
             if isShowing {
-                viewModel.toastSwitch?.cancel()
-                
-                viewModel.toastSwitch = DispatchWorkItem {
+                toastSwitch?.cancel()
+                toastSwitch = DispatchWorkItem {
                     isShowing = false
                 }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + config.duration, execute: viewModel.toastSwitch!)
+                DispatchQueue.main.asyncAfter(deadline: .now() + config.duration, execute: toastSwitch!)
             } else {
-                viewModel.toastSwitch?.cancel()
+                toastSwitch?.cancel()
             }
         })
-    }
-}
-
-extension Toast {
-    
-    @MainActor class ToastViewModel: ObservableObject {
-        var toastSwitch: DispatchWorkItem?
     }
 }
 
