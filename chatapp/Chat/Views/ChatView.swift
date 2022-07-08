@@ -356,6 +356,7 @@ struct ChatView: View {
             break
         }
         
+        let oldReplyPanelState = replyPanelState
         if replyPanelState != .closed {
             if replyPanelState == .reply {
                 KeyboardManager.hideKeyboard()
@@ -367,7 +368,9 @@ struct ChatView: View {
         self.replyPanelMessage = nil
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            needScrollToBottom = true
+            if oldReplyPanelState != .edit { // if message was edited scroll doesn't needed
+                needScrollToBottom = true
+            }
         }
     }
     
