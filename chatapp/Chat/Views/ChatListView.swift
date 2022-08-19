@@ -11,10 +11,10 @@ import SDWebImageSwiftUI
 struct ChatListView: View {
     
     @EnvironmentObject var globalState: AppGlobalState
-    
-    @StateObject private var viewModel = ChatListViewViewModel()
-    
+
     @ObservedObject var chatListModel = AppData.shared.chatsModel
+    
+    @State private var chatsWasRequestedOnce = false
     
     var body: some View {
         List(chatListModel.chats) { chat in
@@ -60,6 +60,12 @@ struct ChatListView: View {
         }
         .listStyle(.plain)
         .background(Color(UIColor.systemBackground).ignoresSafeArea())
+        .onAppear {
+            if !chatsWasRequestedOnce {
+                WS.getChatList()
+                chatsWasRequestedOnce = true
+            }
+        }
         .onChange(of: globalState.selectedChatFromPush, perform: { _ in
             if globalState.selectedChat == nil && globalState.selectedChatFromPush != 0 {
                 if chatListModel.chatsReceivedOnce {
@@ -76,15 +82,6 @@ struct ChatListView: View {
                 }
             }
         })
-    }
-}
-
-extension ChatListView {
-    
-    @MainActor class ChatListViewViewModel: ObservableObject {
-        init() {
-            WS.getChatList()
-        }
     }
 }
 

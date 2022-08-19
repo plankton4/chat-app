@@ -31,7 +31,7 @@ struct GIFViewController: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: GiphyViewController, context: Context) {
-        
+        //
     }
     
     class Coordinator: NSObject, GiphyDelegate {

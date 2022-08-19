@@ -44,6 +44,7 @@ struct ChatBubbleShape: Shape {
                        control1: CGPoint(x: 16, y: height),
                        control2: CGPoint(x: 20, y: height))
         }
+        
         return path
     }
     
@@ -76,6 +77,7 @@ struct ChatBubbleShape: Shape {
                        control1: CGPoint(x: width - 16, y: height),
                        control2: CGPoint(x: width - 20, y: height))
         }
+        
         return path
     }
 }

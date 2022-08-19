@@ -12,8 +12,6 @@ struct MainView: View {
     @EnvironmentObject var globalState: AppGlobalState
     @EnvironmentObject var consts: Consts
     
-    @ObservedObject var chatListModel = AppData.shared.chatsModel
-    
     var body: some View {
         GeometryReader { geo in
             NavigationView {
